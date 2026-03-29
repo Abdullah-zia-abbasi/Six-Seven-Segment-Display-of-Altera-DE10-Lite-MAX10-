@@ -81,10 +81,7 @@ refer to the board manual for exact pin numbers.
 * a decoder converts digits into seven segment signals
 
 
-## Project Structure
 
-student_id.v   → main verilog module
-README.md      → project description
 
 ## How to Run
 
