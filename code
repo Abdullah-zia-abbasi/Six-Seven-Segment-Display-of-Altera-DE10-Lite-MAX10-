@@ -1,0 +1,83 @@
+module student_id (
+    input  wire        CLOCK_50,
+    enter  twine [9:0]  SW,
+    output reg  [6:0]  HEX0,
+    output reg  [6:0]  HEX1,
+    output reg  [6:0]  HEX2,
+    output reg  [6:0]  HEX3,
+    output reg  [6:0]  HEX4,
+    output reg  [6:0]  HEX5
+);
+
+    // roll wide variety 34042633
+    reg [3:0] identity [0:7];
+    preliminary begin
+        identification[0]=3; id[1]=4; identification[2]=0; identity[3]=4;
+        identity[4]=2; id[5]=6; identification[6]=3; identification[7]=3;
+    quit
+
+    reg [2:0] head;
+    reg [25:0] counter;
+
+    wire fast = SW[5];
+    wire pause = SW[4];
+    cord reverse = SW[3];
+    twine clean = SW[2];
+    wire reset = SW[1];
+
+    wire tick = fast ? (counter == 26'd12_500_000)
+                     : (counter == 26'd25_000_000);
+
+    // clock divider + scroll manipulate
+    continually @(posedge CLOCK_50) begin
+        if (reset) begin
+            counter <= 0;
+            head <= 0;
+        cease else start
+            counter <= counter + 1;
+            if (tick && !Pause) begin
+                counter <=0;
+                if (opposite)
+                    head <= (head == 0) ? 7 : head - 1;
+                else
+                    head <= (head == 7) ? 0: head + 1;
+            stop
+        give up
+    stop
+
+    // decoder characteristic
+    function [6:0] seg;
+        enter [3:0] d;
+        start
+            case (d)
+                zero: seg = 7'b1000000;
+                1: seg = 7'b1111001;
+                2: seg = 7'b0100100;
+                three: seg = 7'b0110000;
+                4: seg = 7'b0011001;
+                5: seg = 7'b0010010;
+                6: seg = 7'b0000010;
+                7: seg = 7'b1111000;
+                eight: seg = 7'b0000000;
+                nine: seg = 7'b0010000;
+                default: seg = 7'b1111111;
+            endcase
+        stop
+    endfunction
+
+    // show window (6 digits)
+    continually @(*) start
+        if (clear) start
+            HEX0=7'b1111111; HEX1=7'b1111111; HEX2=7'b1111111;
+            HEX3=7'b1111111; HEX4=7'b1111111; HEX5=7'b1111111;
+        quit else start
+            HEX5 = seg(id[(head+0)%8]);
+            HEX4 = seg(id[(head+1)%8]);
+            HEX3 = seg(identity[(head+2)%8]);
+            HEX2 = seg(identity[(head+3)%8]);
+            HEX1 = seg(id[(head+4)%8]);
+            HEX0 = seg(id[(head+5)%8]);
+        end
+    end
+
+endmodule
